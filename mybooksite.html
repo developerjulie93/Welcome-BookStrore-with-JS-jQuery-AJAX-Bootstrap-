@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyBookSite</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN3>7f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ'>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<h1 id="head_title">Welcome,</h1>
+	<h2 id="head_title">Juhee's BookStore</h2>
+	<div class="input-group mb-3 mx-auto search_bar">
+	  <input id="bookName" type="text" class="form-control" placeholder="What do you want to read?" aria-label="Recipient's username" aria-describedby="button-addon2" onclick="this.value='';" onblur="if(this.value=='') this.value = 'What do you want to read?'">
+	</div>
+	<div class="line"></div>
+
+	<div class="section1">
+		<div>
+			<p id="thumbnail"></p>
+		</div>
+		<div class="description">
+			<h3 id="title"></h3>
+			<p id="authors"></p>
+			<p id="publisher"></p>
+			<p id="isbn"></p>
+			<div class="line"></div>
+			<p id="price"></p>
+			<p id="sale_price"></p>
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="section2">
+		<p id="contents"></p>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script
+	  src="http://code.jquery.com/jquery-3.4.1.js"
+	  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+	  crossorigin="anonymous">
+	</script>
+	<script>
+		$(document).ready(function(){
+			$("#bookName").keypress(function(e){
+				if(e.which == 13){
+				$.ajax({
+				  method: "GET",
+				  url: "https://dapi.kakao.com/v3/search/book?target=title",
+				  data: {query:$("#bookName").val()},
+				  headers: {Authorization: "KakaoAK 34845323fc1757798c0d74494e63d044"}
+				})
+				  .done(function( msg ) {
+				    console.log(msg.documents[0].title);
+				    console.log(msg.documents[0].thumbnail);
+				    console.log(msg.documents[0].authors);
+				    console.log(msg.documents[0].publisher);
+				    console.log(msg.documents[0].isbn);
+				    console.log(msg.documents[0].price);
+				    console.log(msg.documents[0].sale_price);
+				    console.log(msg.documents[0].contents);
+				    $("#title").append("<strong>"+msg.documents[0].title+"</strong><br>");
+				    $("#thumbnail").append("<img src='"+msg.documents[0].thumbnail+"'/><br>");
+				    $("#authors").append("by <strong>"+msg.documents[0].authors+"</strong>");
+				    $("#publisher").append(msg.documents[0].publisher+"<br>");
+				    $("#isbn").append("ISBN : " +msg.documents[0].isbn+"<br>");
+				    $("#price").append("Regular Price : " +msg.documents[0].price+" won<br>");
+				    $("#sale_price").append("Sale Price : <strong>" +msg.documents[0].sale_price+"  won</strong><br>");
+				    $("#contents").append("<h4>ABOUT</h4> <br><br>" +msg.documents[0].contents+"<br>");
+				  });
+			}});
+		});
+
+	</script>
+</body>
+</html>
