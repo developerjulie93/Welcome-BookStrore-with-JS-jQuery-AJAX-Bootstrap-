@@ -1,7 +1,7 @@
 # Welcome-BookStrore-with-KakaoTalk REST API book search engine
 BookStore website with KakaoTalk REST API book search engine
 API url: https://developers.kakao.com/docs/restapi/search#책-검색
-
+-Provide book information such as author, price, content.
 
 Language
 ---------
